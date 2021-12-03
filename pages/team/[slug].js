@@ -1,4 +1,6 @@
+import { PageSEO } from '@/components/SEO'
 import { convertToSlug } from '@/lib/utils'
+import siteMetadata from '@/data/siteMetadata'
 
 export async function getStaticPaths() {
   const res = await fetch(
@@ -48,9 +50,14 @@ export async function getStaticProps({ params }) {
   return { props: { filteredValue, dataEvents, dataPlayers, dataEquipment } }
 }
 
-export default function Blog({ filteredValue, dataEvents, dataPlayers, dataEquipment }) {
+export default function Team({ filteredValue, dataEvents, dataPlayers, dataEquipment }) {
   return (
     <>
+      <PageSEO
+        title={`${filteredValue.strTeam} - ${siteMetadata.title}`}
+        description={siteMetadata.description}
+      />
+
       <div className="pt-10 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
         <div className="mx-auto max-w-7xl lg:px-8">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8">

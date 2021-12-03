@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { convertToSlug } from '@/lib/utils'
+import { PageSEO } from '@/components/SEO'
+import siteMetadata from '@/data/siteMetadata'
 
 export async function getStaticProps() {
   const res = await fetch(`${process.env.APIURL}/lookup_all_teams.php?id=4350`)
@@ -19,6 +20,8 @@ export async function getStaticProps() {
 const TeamsPage = ({ data }) => {
   return (
     <>
+      <PageSEO title={`Teams - ${siteMetadata.title}`} description={siteMetadata.description} />
+
       <div>
         <div className="max-w-7xl mx-auto py-12 px-4 text-center sm:px-6 lg:px-8 lg:py-24">
           <div className="space-y-12">
