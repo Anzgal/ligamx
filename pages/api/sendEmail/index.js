@@ -11,8 +11,8 @@ export default async function main(req, res) {
       port: 587,
       secure: false,
       auth: {
-        user: 'hola@barritademar.mx',
-        pass: 'BarritaMar2021$',
+        user: process.env.EMAILUSER,
+        pass: process.env.EMAILPASS,
       },
     })
 
