@@ -1,101 +1,88 @@
-import Link from '@/components/Link'
-import { PageSEO } from '@/components/SEO'
-import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
-import { getAllFilesFrontMatter } from '@/lib/mdx'
-import formatDate from '@/lib/utils/formatDate'
+import * as React from 'react'
 
-import NewsletterForm from '@/components/NewsletterForm'
+import {
+  ChatAltIcon,
+  DocumentReportIcon,
+  HeartIcon,
+  InboxIcon,
+  PencilAltIcon,
+  ReplyIcon,
+  SparklesIcon,
+  TrashIcon,
+  UsersIcon,
+} from '@heroicons/react/outline'
 
-const MAX_DISPLAY = 5
+import Hero from '../components/Hero'
 
-export async function getStaticProps() {
-  const posts = await getAllFilesFrontMatter('blog')
+const features = [
+  {
+    name: 'Unlimited Inboxes',
+    description:
+      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    icon: InboxIcon,
+  },
+  {
+    name: 'Manage Team Members',
+    description:
+      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    icon: UsersIcon,
+  },
+  {
+    name: 'Spam Report',
+    description:
+      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    icon: TrashIcon,
+  },
+  {
+    name: 'Compose in Markdown',
+    description:
+      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    icon: PencilAltIcon,
+  },
+  {
+    name: 'Team Reporting',
+    description:
+      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    icon: DocumentReportIcon,
+  },
+  {
+    name: 'Saved Replies',
+    description:
+      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    icon: ReplyIcon,
+  },
+  {
+    name: 'Email Commenting',
+    description:
+      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    icon: ChatAltIcon,
+  },
+  {
+    name: 'Connect with Customers',
+    description:
+      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
+    icon: HeartIcon,
+  },
+]
 
-  return { props: { posts } }
-}
+const metrics = [
+  { id: 1, stat: '8K+', emphasis: 'Companies', rest: 'use laoreet amet lacus nibh integer quis.' },
+  { id: 2, stat: '25K+', emphasis: 'Countries around the globe', rest: 'lacus nibh integer quis.' },
+  {
+    id: 3,
+    stat: '98%',
+    emphasis: 'Customer satisfaction',
+    rest: 'laoreet amet lacus nibh integer quis.',
+  },
+  { id: 4, stat: '12M+', emphasis: 'Issues resolved', rest: 'lacus nibh integer quis.' },
+]
 
-export default function Home({ posts }) {
+const IndexPage = () => {
   return (
     <>
-      <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="pt-6 pb-8 space-y-2 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            Latest
-          </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description}
-          </p>
-        </div>
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-          {!posts.length && 'No posts found.'}
-          {posts.slice(0, MAX_DISPLAY).map((frontMatter) => {
-            const { slug, date, title, summary, tags } = frontMatter
-            return (
-              <li key={slug} className="py-12">
-                <article>
-                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:space-y-0 xl:items-baseline">
-                    <dl>
-                      <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date)}</time>
-                      </dd>
-                    </dl>
-                    <div className="space-y-5 xl:col-span-3">
-                      <div className="space-y-6">
-                        <div>
-                          <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                            <Link
-                              href={`/blog/${slug}`}
-                              className="text-gray-900 dark:text-gray-100"
-                            >
-                              {title}
-                            </Link>
-                          </h2>
-                          <div className="flex flex-wrap">
-                            {tags.map((tag) => (
-                              <Tag key={tag} text={tag} />
-                            ))}
-                          </div>
-                        </div>
-                        <div className="prose text-gray-500 max-w-none dark:text-gray-400">
-                          {summary}
-                        </div>
-                      </div>
-                      <div className="text-base font-medium leading-6">
-                        <Link
-                          href={`/blog/${slug}`}
-                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                          aria-label={`Read "${title}"`}
-                        >
-                          Read more &rarr;
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-      {posts.length > MAX_DISPLAY && (
-        <div className="flex justify-end text-base font-medium leading-6">
-          <Link
-            href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="all posts"
-          >
-            All Posts &rarr;
-          </Link>
-        </div>
-      )}
-      {siteMetadata.newsletter.provider !== '' && (
-        <div className="flex items-center justify-center pt-4">
-          <NewsletterForm />
-        </div>
-      )}
+      <Hero />
     </>
   )
 }
+
+export default IndexPage

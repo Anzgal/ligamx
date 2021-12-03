@@ -3,6 +3,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 module.exports = withBundleAnalyzer({
+  images: {
+    domains: ['upload.wikimedia.org', 'www.thesportsdb.com'],
+  },
   reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'md', 'mdx'],
   eslint: {
