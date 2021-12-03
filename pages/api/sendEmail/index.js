@@ -4,6 +4,8 @@ export default async function main(req, res) {
   const { body } = req
 
   console.log('QUERY', body)
+  console.log('USER', process.env.EMAILUSER)
+  console.log('PASS', process.env.EMAILPASS)
 
   try {
     let transporter = nodemailer.createTransport({
@@ -40,7 +42,7 @@ export default async function main(req, res) {
       },
       function (error, info) {
         if (error) {
-          return console.log('Error:', error)
+          console.log('Error:', error)
         }
         console.log('Message sent: ' + info.response)
       }
