@@ -12,7 +12,7 @@ export default async function main(req, res) {
       secure: false,
       auth: {
         user: process.env.EMAILUSER,
-        pass: process.env.EMAILPASS,
+        pass: process.env.EMAILPASS + '$',
       },
     })
 
