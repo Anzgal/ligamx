@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer'
 export default async function main(req, res) {
   const { body } = req
 
-  console.log('QUERY', body)
+  console.log('QUERY params', body)
 
   try {
     let transporter = nodemailer.createTransport({
@@ -11,12 +11,12 @@ export default async function main(req, res) {
       port: 587,
       secure: false,
       auth: {
-        user: process.env.EMAILUSER,
-        pass: process.env.EMAILPASS + '$',
+        user: `${process.env.EMAILUSER}`,
+        pass: `${process.env.EMAILPASS}$`,
       },
     })
 
-    let info = await transporter.sendMail(
+    transporter.sendMail(
       {
         from: 'Contacto <hola@domain.mx>',
         to: 'agalvan70@hotmail.com',
@@ -27,31 +27,29 @@ export default async function main(req, res) {
                 <div style="max-width:600px;width:100%">
                     <p>Nuevo mensaje recibido desde página web.</p>
                     <ul>
-                        <li><b>Nombre: </b> ${body.name}</li>
-                        <li><b>Apellidos: </b> ${body.lastName}</li>
-                        <li><b>Teléfono: </b> ${body.phone}</li>
-                        <li><b>Email: </b> ${body.email}</li>
-                        <li><b>Mensaje: </b> ${body.message}</li>
+                      <li><b>Nombre: </b> ${body.name}</li>
+                      <li><b>Apellidos: </b> ${body.lastName}</li>
+                      <li><b>Teléfono: </b> ${body.phone}</li>
+                      <li><b>Email: </b> ${body.email}</li>
+                      <li><b>Mensaje: </b> ${body.message}</li>
                     </ul>
                     <p>Gracias,</p>
-                    <p>Liga MX.</p>
+                    <p>Liga mx</p>
                 </div>
             `,
       },
       function (error, info) {
         if (error) {
-          console.log('Error:', error)
-          res.json({ error })
+          console.log('Error', error)
+          return console.log('Error:', error)
         }
-        console.log('Message sent: ' + info.response)
+        console.log('Message sent: ' + JSON.stringify(info, null, 2))
+        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+        res.json({ info })
       }
     )
-
-    console.log('Message sent: %s', info.messageId)
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
-
-    res.json({ info })
   } catch (error) {
+    console.log('Error', error)
     res.json({ error })
   }
 }
